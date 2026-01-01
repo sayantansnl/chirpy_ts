@@ -3,7 +3,7 @@ import { config } from "../config.js";
 
 export async function handlerCountServerHits(_: Request, res: Response) {
     res.set({
-        "Content-Type": "text/plain"
+        "Content-Type": "text/html;charset=utf-8"
     });
-    res.send(`Hits: ${config.fileServerHits}`);
+    res.send(`<html><body><h1>Welcome, Chirpy Admin</h1><p>Chirpy has been visited ${config.fileServerHits} times!</p></body></html>`);
 }
