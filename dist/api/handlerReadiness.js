@@ -1,4 +1,4 @@
-export function handlerReadiness(req, res) {
+export function handlerReadiness(_, res) {
     res.set({
         "Content-Type": "text/plain"
     });
