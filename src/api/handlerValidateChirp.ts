@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { respondWithError, respondWithJSON } from "./json.js";
+import { filterProfaneWords } from "./filterProfaneWords.js";
 
 export async function handlerValidateChirp(req: Request, res: Response) {
     type parameters = {
@@ -14,5 +15,5 @@ export async function handlerValidateChirp(req: Request, res: Response) {
     return;
    }
 
-   respondWithJSON(res, 200, {valid: true});
+   respondWithJSON(res, 200, {cleanedBody : filterProfaneWords(params.body)});
 }
