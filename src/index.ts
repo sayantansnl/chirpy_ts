@@ -6,6 +6,8 @@ import { handlerReset } from "./api/handlerReset.js";
 import { handlerValidateChirp } from "./api/handlerValidateChirp.js";
 
 const app = express();
+app.use(express.json());
+
 const PORT = 8080;
 
 app.use(middlewareLogResponses);
