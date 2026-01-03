@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { respondWithError, respondWithJSON } from "./json.js";
+import { respondWithJSON } from "./json.js";
 import { filterProfaneWords } from "./filterProfaneWords.js";
 
 export async function handlerValidateChirp(req: Request, res: Response) {
@@ -11,8 +11,7 @@ export async function handlerValidateChirp(req: Request, res: Response) {
     const maxLength = 140;
 
    if (params.body.length >= maxLength) {
-    respondWithError(res, 400, "Chirp is too long");
-    return;
+    throw new Error("Chirp is too long");
    }
 
    respondWithJSON(res, 200, {cleanedBody : filterProfaneWords(params.body)});
