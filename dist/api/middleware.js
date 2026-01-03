@@ -1,5 +1,6 @@
 import { config } from "../config.js";
 import { respondWithError } from "./json.js";
+import { BadRequestError, ForbiddenError, NotFoundError, UnauthorizedError } from "./errors.js";
 export function middlewareLogResponses(req, res, next) {
     res.on("finish", () => {
         if (res.statusCode >= 300) {
@@ -13,8 +14,19 @@ export function middlewareMetricsInc(_, res, next) {
     next();
 }
 export function middlewareHandleErrors(err, _, res, __) {
-    const statusCode = 500;
-    const message = "Something went wrong on our end";
-    console.log(err);
-    respondWithError(res, statusCode, message);
+    if (err instanceof BadRequestError) {
+        respondWithError(res, 400, err.message);
+    }
+    else if (err instanceof UnauthorizedError) {
+        respondWithError(res, 401, err.message);
+    }
+    else if (err instanceof ForbiddenError) {
+        respondWithError(res, 403, err.message);
+    }
+    else if (err instanceof NotFoundError) {
+        respondWithError(res, 404, err.message);
+    }
+    else {
+        respondWithError(res, 500, "Internal Server Error");
+    }
 }
