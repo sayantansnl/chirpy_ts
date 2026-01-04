@@ -1,14 +1,21 @@
 import express from "express";
+import postgres from "postgres";
+import { migrate } from "drizzle-orm/postgres-js/migrator";
+import { drizzle } from "drizzle-orm/postgres-js";
+import { config } from "./config.js";
 import { handlerReadiness } from "./api/handlerReadiness.js";
 import { middlewareHandleErrors, middlewareLogResponses, middlewareMetricsInc } from "./api/middleware.js";
 import { handlerCountServerHits } from "./api/handlerCountServerHits.js";
 import { handlerReset } from "./api/handlerReset.js";
 import { handlerValidateChirp } from "./api/handlerValidateChirp.js";
 
+const migrationClient = postgres(config.db.url, { max: 1 });
+await migrate(drizzle(migrationClient), config.db.migrationConfig);
+
+const PORT = config.api.port;
+
 const app = express();
 app.use(express.json());
-
-const PORT = 8080;
 
 app.use(middlewareLogResponses);
 app.use("/app", middlewareMetricsInc, express.static("./src/app"));
