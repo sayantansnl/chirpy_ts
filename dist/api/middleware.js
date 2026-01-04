@@ -10,7 +10,7 @@ export function middlewareLogResponses(req, res, next) {
     next();
 }
 export function middlewareMetricsInc(_, res, next) {
-    res.on("finish", () => config.fileServerHits++);
+    res.on("finish", () => config.api.fileServerHits++);
     next();
 }
 export function middlewareHandleErrors(err, _, res, __) {

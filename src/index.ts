@@ -8,6 +8,7 @@ import { middlewareHandleErrors, middlewareLogResponses, middlewareMetricsInc } 
 import { handlerCountServerHits } from "./api/handlerCountServerHits.js";
 import { handlerReset } from "./api/handlerReset.js";
 import { handlerValidateChirp } from "./api/handlerValidateChirp.js";
+import { handlerCreateUser } from "./api/handlerCreateUser.js";
 
 const migrationClient = postgres(config.db.url, { max: 1 });
 await migrate(drizzle(migrationClient), config.db.migrationConfig);
@@ -47,6 +48,14 @@ app.post("/admin/reset", async (req, res, next) => {
 app.post("/api/validate_chirp", async (req, res, next) => {
     try {
         await handlerValidateChirp(req, res);
+    } catch (err) {
+        next(err);
+    }
+});
+
+app.post("/api/users", async (req, res, next) => {
+    try {
+        await handlerCreateUser(req, res);
     } catch (err) {
         next(err);
     }
