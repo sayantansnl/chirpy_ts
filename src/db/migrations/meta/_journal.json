@@ -8,6 +8,13 @@
       "when": 1767536073648,
       "tag": "0000_cooing_wild_pack",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1767631406102,
+      "tag": "0001_fast_grandmaster",
+      "breakpoints": true
     }
   ]
 }

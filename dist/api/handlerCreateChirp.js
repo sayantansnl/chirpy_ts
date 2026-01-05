@@ -20,5 +20,5 @@ export async function handlerCreateChirp(req, res) {
     if (!newChirp) {
         throw new Error("Couldn't create chirp");
     }
-    respondWithJSON(res, 200, newChirp);
+    respondWithJSON(res, 201, newChirp);
 }
