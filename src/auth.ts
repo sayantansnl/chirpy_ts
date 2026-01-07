@@ -2,6 +2,7 @@ import * as argon2 from "argon2";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { UserNotAuthenticatedError } from "./api/errors.js";
 import { Request } from "express";
+import crypto from "crypto";
 
 type Payload = Pick<JwtPayload, "iss" | "sub" | "iat" | "exp">;
 const TOKEN_ISSUER = "chirpy";
@@ -71,4 +72,13 @@ export function getBearerToken(req: Request): string {
     }
 
     return splittedToken[1];
+}
+
+export function makeRefreshToken() {
+    try {
+        const key = crypto.randomBytes(256).toString("hex");
+        return key;
+    } catch (err) {
+        throw new Error(`Couldn't generate bytes: ${err}`);
+    }
 }

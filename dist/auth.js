@@ -1,6 +1,7 @@
 import * as argon2 from "argon2";
 import jwt from "jsonwebtoken";
 import { UserNotAuthenticatedError } from "./api/errors.js";
+import crypto from "crypto";
 const TOKEN_ISSUER = "chirpy";
 export async function hashPassword(password) {
     try {
@@ -61,4 +62,13 @@ export function getBearerToken(req) {
         throw new Error("Malformed authorization header");
     }
     return splittedToken[1];
+}
+export function makeRefreshToken() {
+    try {
+        const key = crypto.randomBytes(256).toString("hex");
+        return key;
+    }
+    catch (err) {
+        throw new Error(`Couldn't generate bytes: ${err}`);
+    }
 }

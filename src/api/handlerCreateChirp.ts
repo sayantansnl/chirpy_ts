@@ -16,12 +16,14 @@ export async function handlerCreateChirp(req: Request, res: Response) {
     const params: parameters = req.body;
     const maxLength = 140;
 
-   if (params.body.length >= maxLength) {
+   if (params.body.length > maxLength) {
     throw new BadRequestError(`Chirp is too long. Max length is ${maxLength}`);
    }
 
    const token = getBearerToken(req);
    const foundUserId = validateJWT(token, config.secret);
+
+   
 
    const respParams: NewChirp = {
     body: filterProfaneWords(params.body),

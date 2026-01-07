@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { config } from "../config.js";
 import { respondWithError } from "./json.js";
-import { BadRequestError, ForbiddenError, NotFoundError, UnauthorizedError } from "./errors.js";
+import { BadRequestError, ForbiddenError, NotFoundError, UnauthorizedError, UserNotAuthenticatedError } from "./errors.js";
 
 export function middlewareLogResponses(req: Request, res: Response, next: NextFunction) {
     res.on("finish", () => {
@@ -20,7 +20,7 @@ export function middlewareMetricsInc(_: Request, res: Response, next: NextFuncti
 export function middlewareHandleErrors(err: Error, _: Request, res: Response, __: NextFunction) {
     if (err instanceof BadRequestError) {
         respondWithError(res, 400, err.message);
-    } else if (err instanceof UnauthorizedError) {
+    } else if (err instanceof UnauthorizedError || err instanceof UserNotAuthenticatedError) {
         respondWithError(res, 401, err.message);
     } else if (err instanceof ForbiddenError) {
         respondWithError(res, 403, err.message);

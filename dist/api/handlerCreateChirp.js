@@ -8,7 +8,7 @@ import { config } from "../config.js";
 export async function handlerCreateChirp(req, res) {
     const params = req.body;
     const maxLength = 140;
-    if (params.body.length >= maxLength) {
+    if (params.body.length > maxLength) {
         throw new BadRequestError(`Chirp is too long. Max length is ${maxLength}`);
     }
     const token = getBearerToken(req);
