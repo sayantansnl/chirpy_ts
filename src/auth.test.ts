@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll } from "vitest";
-import { makeJWT, validateJWT, hashPassword, checkPasswordHash } from "./auth";
+import { makeJWT, validateJWT, hashPassword, checkPasswordHash, getBearerToken } from "./auth";
 import { v4 as uuidv4 } from "uuid";
 
 describe("Password Hashing", () => {
@@ -38,4 +38,22 @@ describe("Validating JWT", () => {
         const foundId = validateJWT(token, secret);
         expect(foundId).toBe(userID);
     });
+});
+
+describe("getBearerToken", () => {
+  it("extracts the token from the Authorization header", () => {
+    const token = "Get-Bearer-Token-123";
+
+    const fakeReq = {
+      get: (headerName: string) => {
+        if (headerName === "Authorization") {
+          return `Bearer ${token}`;
+        }
+        return undefined;
+      },
+    } as any; 
+
+    const result = getBearerToken(fakeReq);
+    expect(result).toBe(token);
+  });
 });

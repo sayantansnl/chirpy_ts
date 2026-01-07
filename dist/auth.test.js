@@ -1,0 +1,49 @@
+import { describe, it, expect, beforeAll } from "vitest";
+import { makeJWT, validateJWT, hashPassword, checkPasswordHash, getBearerToken } from "./auth";
+import { v4 as uuidv4 } from "uuid";
+describe("Password Hashing", () => {
+    const password1 = "correctPassword123!";
+    const password2 = "anotherPassword456!";
+    let hash1;
+    let hash2;
+    beforeAll(async () => {
+        hash1 = await hashPassword(password1);
+        hash2 = await hashPassword(password2);
+    });
+    it("should return true for the correct password", async () => {
+        const result = await checkPasswordHash(password1, hash1);
+        expect(result).toBe(true);
+    });
+    it("should return true for another password", async () => {
+        const result = await checkPasswordHash(password2, hash2);
+        expect(result).toBe(true);
+    });
+});
+describe("Validating JWT", () => {
+    const userID = uuidv4();
+    const secret = "secret";
+    const expiresIn = 3600;
+    let token;
+    beforeAll(() => {
+        token = makeJWT(userID, expiresIn, secret);
+    });
+    it("should be equal", () => {
+        const foundId = validateJWT(token, secret);
+        expect(foundId).toBe(userID);
+    });
+});
+describe("getBearerToken", () => {
+    it("extracts the token from the Authorization header", () => {
+        const token = "Get-Bearer-Token-123";
+        const fakeReq = {
+            get: (headerName) => {
+                if (headerName === "Authorization") {
+                    return `Bearer ${token}`;
+                }
+                return undefined;
+            },
+        };
+        const result = getBearerToken(fakeReq);
+        expect(result).toBe(token);
+    });
+});

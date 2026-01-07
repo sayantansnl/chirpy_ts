@@ -18,3 +18,8 @@ export class NotFoundError extends Error {
         super(message);
     }
 }
+export class UserNotAuthenticatedError extends Error {
+    constructor(message) {
+        super(message);
+    }
+}

@@ -11,7 +11,8 @@ export const config = {
     db: {
         url: envOrThrow("DB_URL"),
         migrationConfig: migrationConfig
-    }
+    },
+    secret: envOrThrow("SECRET")
 };
 function envOrThrow(key) {
     if (typeof process.env[key] === "undefined") {
