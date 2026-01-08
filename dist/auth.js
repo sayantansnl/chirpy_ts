@@ -72,3 +72,14 @@ export function makeRefreshToken() {
         throw new Error(`Couldn't generate bytes: ${err}`);
     }
 }
+export function getAPIKey(req) {
+    const key = req.get("Authorization");
+    if (!key) {
+        throw new UnauthorizedError("No auth header included");
+    }
+    const splittedKey = key?.split(" ");
+    if (splittedKey.length !== 2 || splittedKey[0] !== "ApiKey") {
+        throw new UnauthorizedError("Malformed API key");
+    }
+    return splittedKey[1].trim();
+}
