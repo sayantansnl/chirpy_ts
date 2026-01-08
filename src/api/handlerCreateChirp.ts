@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { respondWithJSON } from "./json.js";
 import { filterProfaneWords } from "./filterProfaneWords.js";
-import { BadRequestError, UserNotAuthenticatedError } from "./errors.js";
+import { BadRequestError } from "./errors.js";
 import { NewChirp } from "../db/schema.js";
 import { v4 as uuidv4 } from "uuid";
 import { createChirp } from "../db/queries/chirps.js";
