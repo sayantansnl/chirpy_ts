@@ -14,6 +14,7 @@ import { handlerGetChirpById } from "./api/handlerGetChirpById.js";
 import { handlerLogin } from "./api/handlerLogin.js";
 import { handlerRefresh } from "./api/handlerRefresh.js";
 import { handlerRevoke } from "./api/handlerRevoke.js";
+import { handlerUpdateUser } from "./api/handlerUpdateUser.js";
 const migrationClient = postgres(config.db.url, { max: 1 });
 await migrate(drizzle(migrationClient), config.db.migrationConfig);
 const PORT = config.api.port;
@@ -96,6 +97,14 @@ app.post("/api/refresh", async (req, res, next) => {
 app.post("/api/revoke", async (req, res, next) => {
     try {
         await handlerRevoke(req, res);
+    }
+    catch (err) {
+        next(err);
+    }
+});
+app.put("/api/users", async (req, res, next) => {
+    try {
+        await handlerUpdateUser(req, res);
     }
     catch (err) {
         next(err);

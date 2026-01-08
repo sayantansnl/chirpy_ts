@@ -1,6 +1,6 @@
 import * as argon2 from "argon2";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { UserNotAuthenticatedError } from "./api/errors.js";
+import { UserNotAuthenticatedError, UnauthorizedError } from "./api/errors.js";
 import { Request } from "express";
 import crypto from "crypto";
 
@@ -63,12 +63,12 @@ export function validateJWT(tokenString: string, secret: string) {
 export function getBearerToken(req: Request): string {
     const tokenString = req.get("Authorization");
     if (!tokenString) {
-        throw new Error("No auth header included");
+        throw new UnauthorizedError("No auth header included");
     }
 
     const splittedToken = tokenString.trim().split(" ");
     if (splittedToken.length !== 2 || splittedToken[0] !== "Bearer") {
-        throw new Error("Malformed authorization header");
+        throw new UnauthorizedError("Malformed authorization header");
     }
 
     return splittedToken[1];
