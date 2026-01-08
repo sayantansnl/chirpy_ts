@@ -20,3 +20,8 @@ export async function updateUser(email, hashedPassword, userID) {
     }).where(eq(users.id, userID)).returning();
     return result;
 }
+export async function upgradeUser(userID) {
+    await db.update(users).set({
+        isChirpyRed: true
+    }).where(eq(users.id, userID));
+}

@@ -24,3 +24,9 @@ export async function updateUser(email: string, hashedPassword: string, userID: 
     }).where(eq(users.id, userID)).returning();
     return result;
 }
+
+export async function upgradeUser(userID: string) {
+    await db.update(users).set({
+        isChirpyRed: true
+    }).where(eq(users.id, userID));
+}

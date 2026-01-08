@@ -20,6 +20,7 @@ export async function handlerUpdateUser(req, res) {
         email: user.email,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt,
+        isChirpyRed: user.isChirpyRed
     };
     respondWithJSON(res, 200, userPreview);
 }

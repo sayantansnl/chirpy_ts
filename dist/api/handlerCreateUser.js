@@ -23,7 +23,8 @@ export async function handlerCreateUser(req, res) {
         id: newUser.id,
         createdAt: newUser.createdAt,
         updatedAt: newUser.updatedAt,
-        email: newUser.email
+        email: newUser.email,
+        isChirpyRed: newUser.isChirpyRed
     };
     respondWithJSON(res, 201, newUserPreview);
 }
