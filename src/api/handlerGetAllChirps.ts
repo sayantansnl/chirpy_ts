@@ -12,5 +12,17 @@ export async function handlerGetAllChirps(req: Request, res: Response) {
     if (!chirps) {
         throw new Error("Couldn't get chirps");
     }
+
+    let sortDirection = "asc";
+    let sortQuery = req.query.sort;
+    if (sortQuery === "desc") {
+        sortDirection = "desc";
+    }
+
+    chirps.sort(
+        (a, b) => sortDirection === "desc" 
+        ? b.createdAt.getTime() - a.createdAt.getTime()
+        : a.createdAt.getTime() - b.createdAt.getTime() 
+    );
     respondWithJSON(res, 200, chirps);
 }
