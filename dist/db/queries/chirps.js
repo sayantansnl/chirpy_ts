@@ -13,6 +13,10 @@ export async function getChirpById(id) {
     const [result] = await db.select().from(chirps).where(eq(chirps.id, id));
     return result;
 }
+export async function getChirpsByAuthorId(userID) {
+    const result = await db.select().from(chirps).where(eq(chirps.userId, userID));
+    return result;
+}
 export async function deleteChirp(chirpID, userID) {
     await db.delete(chirps).where(and(eq(chirps.id, chirpID), eq(chirps.userId, userID)));
 }
